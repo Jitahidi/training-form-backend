@@ -1,5 +1,6 @@
 using CustomerTrainingApp.Data.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,15 @@ builder.Services.AddControllersWithViews();
 
 var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL") ?? builder.Configuration.GetConnectionString("TrainingDB");
 builder.Services.AddDbContext<CustomerTrainingDataContext>(o => o.UseNpgsql(connectionString));
+
+var app = builder.Build();
+
+
+// Create a logger
+ILogger<Program> logger = app.Services.GetRequiredService<ILogger<Program>>();
+
+logger.LogInformation("Starting application...");
+logger.LogInformation($"Connection string: {connectionString}");
 
 
 //builder.Services.AddDbContext<CustomerTrainingDataContext>(o => o.UseNpgsql(builder.Configuration.GetConnectionString("TrainingDB"))
@@ -19,7 +29,7 @@ builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
 
 }));
 
-var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
