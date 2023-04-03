@@ -1,8 +1,15 @@
 using CustomerTrainingApp.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add this block of code to configure logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.SetMinimumLevel(LogLevel.Trace);
+builder.Logging.AddFilter<ConsoleLoggerProvider>(category: null, level: LogLevel.Trace);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
