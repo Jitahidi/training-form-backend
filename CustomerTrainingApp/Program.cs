@@ -5,21 +5,33 @@ using Microsoft.Extensions.Logging.Console;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add this block of code to configure logging
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
-builder.Logging.SetMinimumLevel(LogLevel.Trace);
-builder.Logging.AddFilter<ConsoleLoggerProvider>(category: null, level: LogLevel.Trace);
+// Puts the Heroku connection string in the correct format to be used by Npgsql
+static string ConvertDatabaseUrlToConnectionString(string databaseUrl)
+{
+    var databaseUri = new Uri(databaseUrl);
+    var userInfo = databaseUri.UserInfo.Split(':');
+    return $"Host={databaseUri.Host};Port={databaseUri.Port};Database={databaseUri.LocalPath.Substring(1)};User Id={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=True;";
+}
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL") ?? builder.Configuration.GetConnectionString("TrainingDB");
+string connectionString;
+// DATABASE_URL provided by Heroku is stored locally in my environment table
+var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+if (databaseUrl != null)
+{
+    connectionString = ConvertDatabaseUrlToConnectionString(databaseUrl);
+}
+else
+{
+    connectionString = builder.Configuration.GetConnectionString("TrainingDB");
+}
 builder.Services.AddDbContext<CustomerTrainingDataContext>(o => o.UseNpgsql(connectionString));
 
-//builder.Services.AddDbContext<CustomerTrainingDataContext>(o => o.UseNpgsql(builder.Configuration.GetConnectionString("TrainingDB"))
 
-//Allows any domain to be able to send http requests. Change in the future to only allow localhost:3000 to guard against security vulnerabilities. 
+// Allows any domain to be able to send http requests. Change in the future to only allow localhost:3000 to guard against security vulnerabilities. 
 builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
 {
     build.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
