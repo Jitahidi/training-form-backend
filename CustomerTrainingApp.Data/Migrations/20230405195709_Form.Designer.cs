@@ -3,6 +3,7 @@ using System;
 using CustomerTrainingApp.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CustomerTrainingApp.Data.Migrations
 {
     [DbContext(typeof(CustomerTrainingDataContext))]
-    partial class CustomerTrainingDataContextModelSnapshot : ModelSnapshot
+    [Migration("20230405195709_Form")]
+    partial class Form
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
