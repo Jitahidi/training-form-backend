@@ -32,5 +32,11 @@ namespace CustomerTrainingApp.Data.Models
         public string? Individual_or_Group_Training { get; set; } 
         public string? Student_Membership_ID { get; set; } 
         public string? Skill_Learning_Objective { get; set; }
+
+        // Add EmployeeId property as a foreign key
+        public int? EmployeeId { get; set; }
+
+        // Add a navigation property for the Employee class
+        public Employee? Employee { get; set; }
     }
 } 
