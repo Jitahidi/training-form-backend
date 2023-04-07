@@ -1,5 +1,4 @@
-# Backend Code for the:
-# Federal Training Request Form Project
+# Federal Training Request Form Project (Backend)
 
 Frontend code for the project can be found at this link: (https://github.com/Jitahidi/Customer_Training/tree/main/material_table).
 
