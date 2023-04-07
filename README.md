@@ -9,7 +9,7 @@ which can be found at this link: (https://www.opm.gov/forms/pdf_fill/sf182.pdf).
 while the back-end portion was built with the Entity Framework Code First Library (ASP.NET Core) in C# and PostgreSQL. The project emphasizes the creation of a 
 form to gather trainee information and training course data, subsequently storing the collected data in a database.
 
-## Summary of the Backend code
+## Summary of the Backend Code
 
 The code provided is for a web application that manages employee training data. The application uses ASP.NET Core and Entity Framework Core with a PostgreSQL database. 
 The main components of the application are the controllers, data context, and class files.
